@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
-// Create the context
 const SocketContext = createContext(null);
 
 export const SocketProvider = ({ children }) => {
@@ -10,7 +9,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     const socketInstance = io(
-      import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000',
+      import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000',
       {
         withCredentials: true,
         transports: ['websocket', 'polling'],
@@ -43,7 +42,6 @@ export const SocketProvider = ({ children }) => {
   );
 };
 
-// Custom hook for easier usage
 export const useSocket = () => {
   const context = useContext(SocketContext);
   if (!context) {
@@ -52,5 +50,4 @@ export const useSocket = () => {
   return context;
 };
 
-// Named export for the context itself
 export { SocketContext };
